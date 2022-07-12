@@ -1,0 +1,97 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.*;
+
+public class Main
+{
+    public static int bfs(int node,int[] colour,int[][] matrix)
+    {
+        int current_colour = 0;
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.add(node);
+        while(!(q.isEmpty()))
+        {
+            
+            int size = q.size();
+            /*for(int i:q)
+            {
+                System.out.print(i);
+            }
+            System.out.println("");*/
+            for(int i=0;i<size;i++)
+            {
+                int current_node = q.remove();
+                
+                colour[current_node] = current_colour;
+                for(int j=0;j<matrix.length;j++)
+                {
+                    if(matrix[current_node][j] == 1)
+                    {
+                        if(colour[j] == -1)
+                            q.add(j);
+                        else if(colour[j] == current_colour)
+                            return 0;
+                    }
+                }
+                
+            }
+            System.out.print("colour");
+            for(int c:colour)
+            {
+                System.out.print(c);
+            }
+            System.out.println("");
+            if(current_colour == 0)
+                current_colour = 1;
+            else
+                current_colour =0;
+        }
+        return 1;
+    }
+    
+	public static void main(String[] args) {
+	    Scanner sc = new Scanner(System.in);
+		int v = sc.nextInt();
+		int e = sc.nextInt();
+		int e1[] = new int[e];
+	    int e2[] = new int[e];
+		int matrix[][] = new int[v][v];
+		for(int i=0;i<e;i++)
+		{
+		   e1[i]=sc.nextInt();
+		   e2[i]=sc.nextInt();
+		   matrix[e1[i]-1][e2[i]-1] = 1;
+		   matrix[e2[i]-1][e1[i]-1] = 1;
+		}
+		/*for(int i=0;i<v;i++)
+		{
+		    for(int j=0;j<v;j++)
+		    {
+		        System.out.print(matrix[i][j]);
+		    }
+		    System.out.println("");
+		}*/
+		int colour[] = new int[v];
+		for(int i=0;i<v;i++)
+		    colour[i]=-1;
+		for(int i=0;i<v;i++)
+		{
+		    if(colour[i]==-1)
+		    if(bfs(i,colour,matrix) == 0)
+		    {
+		        System.out.println("-1");
+		        return;
+		    }
+		}
+		for(int i=0;i<v;i++)
+		{
+		    if(colour[i]==1)
+		    System.out.print(i+1);
+		}
+	}
+}
